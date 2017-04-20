@@ -7,9 +7,8 @@ public class Player {
     String name;
     LinkedList<Piece> hand = new LinkedList<>();
 
-    public Player(String name, LinkedList<Piece> hand) {
+    public Player(String name) {
         this.name = name;
-        this.hand = hand;
     }
 
     public String getName() {
@@ -26,5 +25,18 @@ public class Player {
 
     public void setHand(LinkedList<Piece> hand) {
         this.hand = hand;
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre: " + name + " - " + printHand();
+    }
+
+    private String printHand() {
+        String handS = "";
+        for (Piece p : hand) {
+            handS += " " + p.toString();
+        }
+        return handS;
     }
 }

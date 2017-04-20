@@ -8,11 +8,56 @@ import java.util.Scanner;
 public class Game {
     LinkedList<Piece> heap = new LinkedList<>();
     Board board = new Board();
+    Player isHand;
+    LinkedList<Player> players = new LinkedList<>();
 
     public void start() {
         System.out.printf("\t\t\t\t\tBienvenido al Dominó.");
+
+        //TODO Añadir relleno de presentacion
+
         setPlayers();
         initializePieces();
+
+        /*for (Player p : players) {
+            System.out.printf(p.toString()+"\n");
+        }*/
+        board.printBoard();
+
+    }
+
+
+    private void play() {
+        while (emptyPlayer() && count7Pieces()) {
+
+        }
+    }
+
+    private boolean emptyPlayer() {
+        for (Player p : players) {
+            if (p.hand.size() == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean count7Pieces() {
+        int first, last;
+        int firstCount = 0, lastCount = 0;
+        first = board.getBoardPieces().getFirst().getSide1();
+        last = board.getBoardPieces().getLast().getSide2();
+
+        for (Piece p : heap) {
+            if (p.getSide1() == first || p.getSide2() == first) {
+                firstCount++;
+            } else if (p.getSide1() == last || p.getSide2() == last) {
+                lastCount++;
+            }
+        }
+
+        return firstCount == 7 || lastCount == 7;
+
     }
 
     private void initializePieces() {
@@ -31,11 +76,17 @@ public class Game {
         Collections.shuffle(heap);
 
         //First hand out of heap pieces
-
+        for (int i = 0; i < players.size(); i++) {
+            LinkedList<Piece> hand = players.get(i).getHand();
+            for (int j = 0; j < 7; j++) {
+                hand.add(heap.getFirst());
+                heap.removeFirst();
+            }
+        }
     }
 
     private void setPlayers() {
-        //Set number of players, create them and set order.
+        //Set number of players and create them.
 
         int numberOfPlayers = 0;
 
@@ -44,6 +95,8 @@ public class Game {
 
         while (numberOfPlayers < 2 || numberOfPlayers > 4) {
             System.out.printf("Introduzca el número de jugadores: ");
+
+            //TODO Comprobar que no metan caralladas
 
             Scanner scn = new Scanner(System.in);
             numberOfPlayers = scn.nextInt();
@@ -62,13 +115,9 @@ public class Game {
             Scanner scn = new Scanner(System.in);
             playerName = scn.nextLine();
 
-            Player player = new Player(i, playerName);
-            players.put(player);
+            Player player = new Player(playerName);
+            players.add(player);
         }
 
-        //Shuffle players order
-        players.shuffle();
     }
-
-//Tonto el que lo lea
 }
