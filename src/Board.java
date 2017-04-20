@@ -25,4 +25,41 @@ public class Board {
         }
         System.out.printf("\n****************************************************************************\n");
     }
+
+    public boolean checkPiece(Piece piece, String side) {
+        if (boardPieces.size() == 0) return true;
+
+        if (side == "i" || side == "I") {
+            if (piece.getSide1() == boardPieces.getFirst().getSide1() || piece.getSide2() == boardPieces.getFirst().getSide1()) {
+                return true;
+            }
+        } else {
+            if (piece.getSide1() == boardPieces.getLast().getSide2() || piece.getSide2() == boardPieces.getLast().getSide2()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void placePiece(Piece piece, String side) {
+
+        if (boardPieces.size() == 0) {
+            boardPieces.add(piece);
+            return;
+        }
+
+        if (side == "i" || side == "I") {
+            if (piece.getSide2() != boardPieces.getFirst().getSide1()) {
+                Piece aux = new Piece(piece.getSide2(), piece.getSide1());
+                piece = aux;
+            }
+            boardPieces.addFirst(piece);
+        } else {
+            if (piece.getSide1() != boardPieces.getLast().getSide2()) {
+                Piece aux = new Piece(piece.getSide2(), piece.getSide1());
+                piece = aux;
+            }
+            boardPieces.addLast(piece);
+        }
+    }
 }

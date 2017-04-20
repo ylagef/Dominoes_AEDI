@@ -22,15 +22,45 @@ public class Game {
         /*for (Player p : players) {
             System.out.printf(p.toString()+"\n");
         }*/
-        board.printBoard();
-
+        play();
     }
 
 
     private void play() {
-        while (emptyPlayer() && count7Pieces()) {
+        Scanner scn = new Scanner(System.in);
+        int pieceToAdd = 0;
+        String side = "";
+        boolean err = false;
 
+        while (!emptyPlayer() || !count7Pieces()) {
+            int actualPlayer = 0;
+
+            board.printBoard();
+            players.get(actualPlayer).printOptions();
+
+            //TODO Comprobar que las entradas estén bien formateadas.
+
+            while (err) {
+                err = false;
+                pieceToAdd = scn.nextInt();
+                Piece piece = players.get(actualPlayer).getHand().get(pieceToAdd);
+
+                System.out.printf("Seleccione el lado: (I/D)");
+                scn.nextLine();
+                side = scn.nextLine();
+
+                if (!board.checkPiece(piece, side)) {
+                    err = true;
+                    System.out.printf("ERROR, VUELVA A INTRODUCIR LOS DATOS.\n");
+                } else {
+                    board.placePiece(piece, side);
+                    players.get(actualPlayer).getHand().remove(piece);
+                }
+            }
+
+            actualPlayer++;
         }
+        System.out.printf("GAME OVER PENDEJOS.");
     }
 
     private boolean emptyPlayer() {
@@ -43,6 +73,9 @@ public class Game {
     }
 
     private boolean count7Pieces() {
+
+        if (board.getBoardPieces().size() == 0) return false;
+
         int first, last;
         int firstCount = 0, lastCount = 0;
         first = board.getBoardPieces().getFirst().getSide1();
@@ -57,7 +90,6 @@ public class Game {
         }
 
         return firstCount == 7 || lastCount == 7;
-
     }
 
     private void initializePieces() {

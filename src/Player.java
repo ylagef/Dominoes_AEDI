@@ -27,6 +27,13 @@ public class Player {
         this.hand = hand;
     }
 
+    public void printOptions() {
+        System.out.println("Jugador " + name + ", seleccione su ficha:");
+        for (int i = 0; i < hand.size(); i++) {
+            System.out.println(i + ") " + hand.get(i));
+        }
+    }
+
     @Override
     public String toString() {
         return "Nombre: " + name + " - " + printHand();
