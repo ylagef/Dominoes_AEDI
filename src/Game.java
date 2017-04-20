@@ -6,29 +6,31 @@ import java.util.Scanner;
  * Created by Yeray on 20/04/2017.
  */
 public class Game {
+    LinkedList<Piece> heap = new LinkedList<>();
+    Board board = new Board();
 
     public void start() {
-
         System.out.printf("\t\t\t\t\tBienvenido al Dominó.");
         setPlayers();
         initializePieces();
     }
 
     private void initializePieces() {
-        //Create, shuffle and first hand out pieces.
-        LinkedList<Piece> pieces = new LinkedList<>();
+        //Create pieces
+
         int row = 1;
         for (int i = 0; i <= 6; i++) {
             for (int j = 0; j < row; j++) {
                 Piece piece = new Piece(i, j);
-                pieces.add(piece);
+                heap.add(piece);
             }
             row++;
         }
 
         //Shuffle pieces
-        Collections.shuffle(pieces);
+        Collections.shuffle(heap);
 
+        //First hand out of heap pieces
 
     }
 
