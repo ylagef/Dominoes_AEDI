@@ -30,10 +30,12 @@ public class Game {
         Scanner scn = new Scanner(System.in);
         int pieceToAdd = 0;
         String side = "";
-        boolean err = false;
+        boolean err = true;
+        int actualPlayer = 0;
 
         while (!emptyPlayer() || !count7Pieces()) {
-            int actualPlayer = 0;
+            err = true;
+            if (actualPlayer == players.size()) actualPlayer = 0;
 
             board.printBoard();
             players.get(actualPlayer).printOptions();
@@ -41,11 +43,11 @@ public class Game {
             //TODO Comprobar que las entradas estén bien formateadas.
 
             while (err) {
-                err = false;
+
                 pieceToAdd = scn.nextInt();
                 Piece piece = players.get(actualPlayer).getHand().get(pieceToAdd);
 
-                System.out.printf("Seleccione el lado: (I/D)");
+                System.out.printf("Seleccione el lado (I/D): ");
                 scn.nextLine();
                 side = scn.nextLine();
 
@@ -55,11 +57,13 @@ public class Game {
                 } else {
                     board.placePiece(piece, side);
                     players.get(actualPlayer).getHand().remove(piece);
+                    err = false;
                 }
             }
 
             actualPlayer++;
         }
+
         System.out.printf("GAME OVER PENDEJOS.");
     }
 
