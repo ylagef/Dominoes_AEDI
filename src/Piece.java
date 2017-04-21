@@ -1,13 +1,11 @@
-/**
- * Created by Yeray on 20/04/2017.
- */
-public class Piece {
+
+public class Piece { //TODO Renombrar todos los piece por Token
+
     private int Side1;
     private int Side2;
 
     public Piece(int Side1, int Side2) {
         this.Side1 = Side1;
-
         this.Side2 = Side2;
     }
 

@@ -1,11 +1,9 @@
 import java.util.LinkedList;
 
-/**
- * Created by Yeray on 20/04/2017.
- */
+
 public class Player {
     String name;
-    LinkedList<Piece> hand = new LinkedList<>();
+    LinkedList<Piece> hand = new LinkedList<>(); //Contains all the tokens on the hand of the player.
 
     public Player(String name) {
         this.name = name;
@@ -28,15 +26,11 @@ public class Player {
     }
 
     public void printOptions() {
-        System.out.println("Jugador " + name + ", seleccione su ficha:");
+        //TODO Solo elegir las fichas que tiene. Opción de poner ficha. Opción de pasar turno.
+        //System.out.println("Jugador " + name + ", seleccione su ficha:");
         for (int i = 0; i < hand.size(); i++) {
-            System.out.println(i + ") " + hand.get(i));
+            System.out.printf(i + ") " + hand.get(i) + "    ");
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Nombre: " + name + " - " + printHand();
     }
 
     private String printHand() {
@@ -46,4 +40,11 @@ public class Player {
         }
         return handS;
     }
+
+    @Override
+    public String toString() {
+        return "Nombre: " + name + " - " + printHand();
+    }
+
+
 }
