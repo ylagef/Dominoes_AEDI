@@ -1,10 +1,10 @@
 
-public class Piece { //TODO Renombrar todos los piece por Token
+public class Token { //TODO Renombrar todos los piece por Token
 
     private int Side1;
     private int Side2;
 
-    public Piece(int Side1, int Side2) {
+    public Token(int Side1, int Side2) {
         this.Side1 = Side1;
         this.Side2 = Side2;
     }

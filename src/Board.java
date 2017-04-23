@@ -3,49 +3,49 @@ import java.util.LinkedList;
 
 public class Board { //TODO Renombrar todos los Board a GameBoard
 
-    private LinkedList<Piece> boardPieces = new LinkedList<>(); //Atribute that contains the tokens placed on the game board.
+    private LinkedList<Token> boardTokens = new LinkedList<>(); //Atribute that contains the tokens placed on the game board.
 
     public Board() {
     }
 
-    public LinkedList<Piece> getBoardPieces() {
+    public LinkedList<Token> getBoardTokens() {
 
-        return boardPieces;
+        return boardTokens;
     }
 
-    public void setBoardPieces(LinkedList<Piece> boardPieces) {
+    public void setBoardTokens(LinkedList<Token> boardTokens) {
 
-        this.boardPieces = boardPieces;
+        this.boardTokens = boardTokens;
     }
 
     public void printBoard() { //TODO Integrar en la interfaz gráfica.
-        System.out.printf("\n****************************************************************************\n");
-        System.out.printf("                               TABLERO DE JUEGO\n");
-        System.out.printf("****************************************************************************\n\n");
-        for (Piece p : boardPieces) {
+        System.out.printf("\n****************************************************************************************************************************************************************************\n");
+        System.out.printf("                                                                                 TABLERO DE JUEGO\n");
+        System.out.printf("****************************************************************************************************************************************************************************\n\n");
+        for (Token p : boardTokens) {
             System.out.printf(p.toString() + " ");
         }
-        System.out.printf("\n\n****************************************************************************\n");
-        System.out.printf("****************************************************************************\n");
+        System.out.printf("\n\n****************************************************************************************************************************************************************************\n");
+        //System.out.printf("****************************************************************************\n");
     }
 
-    public boolean checkPiece(Piece piece, char side) {
-        /*Method that checks if a piece is allowed to be placed in the board.*/
+    public boolean checkPiece(Token token, char side) {
+        /*Method that checks if a token is allowed to be placed in the board.*/
 
-        if (boardPieces.size() == 0) {
+        if (boardTokens.size() == 0) {
             return true;
         } else {
             if(side=='x'){ //Only in the first turn of the game.
-                return (piece.getSide1() == boardPieces.getFirst().getSide1() || piece.getSide2() == boardPieces.getFirst().getSide1()) || (piece.getSide1() == boardPieces.getLast().getSide2() || piece.getSide2() == boardPieces.getLast().getSide2());
+                return (token.getSide1() == boardTokens.getFirst().getSide1() || token.getSide2() == boardTokens.getFirst().getSide1()) || (token.getSide1() == boardTokens.getLast().getSide2() || token.getSide2() == boardTokens.getLast().getSide2());
             }
             else{
             if (side == 'I' ) {
-                if (piece.getSide1() == boardPieces.getFirst().getSide1() || piece.getSide2() == boardPieces.getFirst().getSide1()) {
+                if (token.getSide1() == boardTokens.getFirst().getSide1() || token.getSide2() == boardTokens.getFirst().getSide1()) {
                     return true;
                 }
             } else {
                 if (side == 'D') {
-                    if (piece.getSide1() == boardPieces.getLast().getSide2() || piece.getSide2() == boardPieces.getLast().getSide2()) {
+                    if (token.getSide1() == boardTokens.getLast().getSide2() || token.getSide2() == boardTokens.getLast().getSide2()) {
                         return true;
                     }
                 }
@@ -55,27 +55,28 @@ public class Board { //TODO Renombrar todos los Board a GameBoard
         }
     }
 
-    public void placePiece(Piece piece, char side) {
-        /*Method thath places a piece in the table. Need the checkPiece method to be used before. */
+    public void placePiece(Token token, char side) {
+        /*Method thath places a token in the table. Need the checkPiece method to be used before. */
 
-//TODO Simplificar la elección de lado con una letra solo por lado.
-        if (boardPieces.size() == 0) {
-            boardPieces.add(piece);
-            return;
+        switch (side) {
+            case 'I':
+                if (token.getSide2() != boardTokens.getFirst().getSide1()) { //Turns the token numbers
+                    Token aux = new Token(token.getSide2(), token.getSide1());
+                    token = aux;
+                }
+                boardTokens.addFirst(token);
+                break;
+            case 'D':
+                if (token.getSide1() != boardTokens.getLast().getSide2()) { //Turns de token numbers
+                    Token aux = new Token(token.getSide2(), token.getSide1());
+                    token = aux;
+                }
+                boardTokens.addLast(token);
+                break;
+            case 'X': //In case of empty table
+                boardTokens.add(token);
+                break;
         }
 
-        if (side == 'I') {
-            if (piece.getSide2() != boardPieces.getFirst().getSide1()) {
-                Piece aux = new Piece(piece.getSide2(), piece.getSide1());
-                piece = aux;
-            }
-            boardPieces.addFirst(piece);
-        } else {
-            if (piece.getSide1() != boardPieces.getLast().getSide2()) {
-                Piece aux = new Piece(piece.getSide2(), piece.getSide1());
-                piece = aux;
-            }
-            boardPieces.addLast(piece);
-        }
     }
 }

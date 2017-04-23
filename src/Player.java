@@ -3,8 +3,16 @@ import java.util.LinkedList;
 
 public class Player {
     String name;
-    LinkedList<Piece> hand = new LinkedList<>(); //Contains all the tokens on the hand of the player.
+    LinkedList<Token> hand = new LinkedList<>(); //Contains all the tokens on the hand of the player.
+    boolean winner;
 
+    public boolean getWinner(){
+        return this.winner;
+    }
+
+    public void setWinner(boolean winner){
+        this.winner=winner;
+    }
     public Player(String name) {
         this.name = name;
     }
@@ -17,25 +25,27 @@ public class Player {
         this.name = name;
     }
 
-    public LinkedList<Piece> getHand() {
+    public LinkedList<Token> getHand() {
         return hand;
     }
 
-    public void setHand(LinkedList<Piece> hand) {
+    public void setHand(LinkedList<Token> hand) {
         this.hand = hand;
     }
 
     public void printOptions() {
-        //TODO Solo elegir las fichas que tiene. Opción de poner ficha. Opción de pasar turno.
-        //System.out.println("Jugador " + name + ", seleccione su ficha:");
+
+        System.out.printf( "FICHAS EN LA MANO (" + this.getHand().size() +"): ||   ");
         for (int i = 0; i < hand.size(); i++) {
             System.out.printf(i + ") " + hand.get(i) + "    ");
         }
+
+        System.out.print("||    C) COGER FICHA   P) PASAR TURNO");
     }
 
     private String printHand() {
         String handS = "";
-        for (Piece p : hand) {
+        for (Token p : hand) {
             handS += " " + p.toString();
         }
         return handS;
@@ -43,8 +53,16 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Nombre: " + name + " - " + printHand();
+        return "      "+name+" ..... "+ printHand() +" ..... "+ playerPoints();
     }
 
-
+    public int playerPoints(){
+        int points=0;
+        LinkedList<Token> hand =getHand();
+        for(Token t: hand){
+            points+=t.getSide1();
+            points+=t.getSide2();
+        }
+        return points;
+    }
 }
