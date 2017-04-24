@@ -8,6 +8,7 @@ public class Board { //TODO Renombrar todos los Board a GameBoard
     public Board() {
     }
 
+
     public LinkedList<Token> getBoardTokens() {
 
         return boardTokens;

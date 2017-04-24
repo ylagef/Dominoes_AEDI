@@ -73,7 +73,7 @@ public class Game {
                                 if (board.checkPiece(token, side)) { //The token is been placed on the game board and removed from the player's hand.
                                     board.placePiece(token, side);
                                     players.get(actualPlayer).getHand().remove(token);
-                                    //error = false;//--//TODO eliminar
+                                    error = false;//--//TODO eliminar
                                 } else {
                                     error = true;
                                     System.out.printf("\n###  NO ES POSIBLE COLOCAR LA FICHA EN EL LADO ELEGIDO  ###\n\n");
@@ -86,8 +86,9 @@ public class Game {
                         } else {
                             if (emptyBoard) {
                                 board.placePiece(token, 'X');
+                                players.get(actualPlayer).getHand().remove(token);
                                 emptyBoard = false;
-                                //error = false;
+                                error = false;
                             } else {
                                 error = true;
                                 System.out.printf("\n\n\n\n\n ###  NO ES POSIBLE COLOCAR LA FICHA ELEGIDA  ###\n\n");
@@ -114,7 +115,12 @@ public class Game {
                                     System.out.printf("\n\n###  NO QUEDAN FICHAS PARA PODER COGER  ###\n\n");
                                 }
                                 break;
-                            case 'P': //Pass the turn.
+                            case 'P': //Pass the turn.//TODO No permitir si quedan fichas en el monton
+                                if(heap.size()!=0){
+                                    error = true;
+                                    System.out.printf("\n\n###  NO ES POSIBLE PASAR TURNO. TIENE QUE COGER FICHA  ###\n\n");
+                                }
+
                                 break;
                             default:
                                 error = true;
