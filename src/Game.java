@@ -30,7 +30,7 @@ public class Game {
         String optionString;
         String sideString;
         char side, option;
-        boolean error = false, emptyBoard = true, sevenPieces=false;
+        boolean error = false, emptyBoard = true, sevenPieces=false, takeTokenfromHeap;
         int actualPlayer = 0;
 
 
@@ -41,7 +41,7 @@ public class Game {
 
             System.out.printf("\n\n                                                               >>>>>>>>>>>> TURNO DEL JUGADOR: " + players.get(actualPlayer).getName() + " <<<<<<<<<<<\n\n");
 
-
+            takeTokenfromHeap=false;
             do {
                 error=false;
 
@@ -73,7 +73,8 @@ public class Game {
                                 if (board.checkPiece(token, side)) { //The token is been placed on the game board and removed from the player's hand.
                                     board.placePiece(token, side);
                                     players.get(actualPlayer).getHand().remove(token);
-                                    error = false;//--//TODO eliminar
+                                    takeTokenfromHeap=false;
+                                    error = false;
                                 } else {
                                     error = true;
                                     System.out.printf("\n###  NO ES POSIBLE COLOCAR LA FICHA EN EL LADO ELEGIDO  ###\n\n");
@@ -89,6 +90,7 @@ public class Game {
                                 players.get(actualPlayer).getHand().remove(token);
                                 emptyBoard = false;
                                 error = false;
+                                takeTokenfromHeap=false;
                             } else {
                                 error = true;
                                 System.out.printf("\n\n\n\n\n ###  NO ES POSIBLE COLOCAR LA FICHA ELEGIDA  ###\n\n");
@@ -106,21 +108,31 @@ public class Game {
                         option = optionString.toUpperCase().charAt(0);
 
                         switch (option) {
-                            case 'C': //Take a token from the stack to the hand.
-                                if(heap.size()!=0){ //Take a token from the heap it's only possible if it's not empty.
+                            case 'C': //Take a token from the stack to the hand. //TODO lineas superiores en blanco
+                                if(heap.size()!=0 && !takeTokenfromHeap){ //Take a token from the heap it's only possible if it's not empty.
                                     players.get(actualPlayer).getHand().add(heap.pop());
+                                    takeTokenfromHeap=true;
+                                    System.out.printf("\n\n>>>>>  HA COGIDO FICHA  \n\n");
                                 }
                                 else{
+                                    if(takeTokenfromHeap){
+                                        System.out.printf("\n\n###  NO PUEDE COGER MAS FICHAS. YA HA COGIDO UNA EN ESTE TURNO.  ###\n\n");
+                                    }
+                                    else{
+                                        System.out.printf("\n\n###  NO QUEDAN FICHAS PARA PODER COGER  ###\n\n");
+                                    }
                                     error = true;
-                                    System.out.printf("\n\n###  NO QUEDAN FICHAS PARA PODER COGER  ###\n\n");
                                 }
                                 break;
-                            case 'P': //Pass the turn.//TODO No permitir si quedan fichas en el monton
+                            case 'P': //Pass the turn.
                                 if(heap.size()!=0){
-                                    error = true;
-                                    System.out.printf("\n\n###  NO ES POSIBLE PASAR TURNO. TIENE QUE COGER FICHA  ###\n\n");
+                                    if(!takeTokenfromHeap){
+                                        System.out.printf("\n\n###  NO ES POSIBLE PASAR TURNO. TIENE QUE COGER FICHA  ###\n\n");
+                                        error = true;
+                                    }
+                                   // System.out.printf("\n\n###  NO ES POSIBLE PASAR TURNO. TIENE QUE COGER FICHA  ###\n\n");
                                 }
-
+                                takeTokenfromHeap=false;
                                 break;
                             default:
                                 error = true;
@@ -132,7 +144,7 @@ public class Game {
                     }
                 }
 
-            } while (error);
+            } while (error || takeTokenfromHeap);
 
             actualPlayer++; //End of the turn. Next player.
         }
@@ -152,6 +164,7 @@ public class Game {
                 else {
                     System.out.println();
                 }
+                System.out.println();
             }
         }
         else{ //The match ends because one number has been placed 7 times.
