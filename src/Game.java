@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-public class Game {
+class Game {
 
     private LinkedList<Token> heap = new LinkedList<>();
     private Board board = new Board();

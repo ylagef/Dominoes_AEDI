@@ -7,24 +7,20 @@ public class Player {
     private boolean isWinner; //True if the player is the winner.
 
 
-    public Player(String name) {
+    Player(String name) {
         this.name = name;
         this.isWinner = false;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setHand(LinkedList<Token> hand) {
+    void setHand(LinkedList<Token> hand) {
         this.hand = hand;
     }
 
-    public void printOptions() { //Prints the current options
+    void printOptions() { //Prints the current options
 
         System.out.printf("FICHAS EN LA MANO (" + handSize() + "): ||   ");
         for (int i = 0; i < hand.size(); i++) {
@@ -47,15 +43,15 @@ public class Player {
         return "      " + name + " .................... " + printHand() + " .................... " + playerPoints();
     }
 
-    public boolean getIsWinner() {
+    boolean getIsWinner() {
         return this.isWinner;
     }
 
-    public void setIsWinner(boolean isWinner) {
+    void setIsWinner(boolean isWinner) {
         this.isWinner = isWinner;
     }
 
-    public int playerPoints() { //Calulates the total points
+    int playerPoints() { //Calulates the total points
         int points=0;
         for(Token t: hand){
             points+=t.getSide1();
@@ -64,19 +60,19 @@ public class Player {
         return points;
     }
 
-    public int handSize() {
+    int handSize() {
         return this.hand.size();
     }
 
-    public Token getToken(int pieceToPlay) {
+    Token getToken(int pieceToPlay) {
         return hand.get(pieceToPlay);
     }
 
-    public void removeToken(Token tokenToRemove) {
+    void removeToken(Token tokenToRemove) {
         hand.remove(tokenToRemove);
     }
 
-    public void addTokenToHand(Token token) {
+    void addTokenToHand(Token token) {
         hand.add(token);
     }
 }

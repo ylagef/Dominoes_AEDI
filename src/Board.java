@@ -1,25 +1,20 @@
 
 import java.util.LinkedList;
 
-public class Board { //TODO Renombrar todos los Board a GameBoard
+class Board { //TODO Renombrar todos los Board a GameBoard
 
     private LinkedList<Token> boardTokens;  //Atribute that contains the tokens placed on the game board.
 
-    public Board() {
+    Board() {
         this.boardTokens = new LinkedList<>();
     }
 
-    public LinkedList<Token> getBoardTokens() {
+    private LinkedList<Token> getBoardTokens() {
 
         return boardTokens;
     }
 
-    public void setBoardTokens(LinkedList<Token> boardTokens) {
-
-        this.boardTokens = boardTokens;
-    }
-
-    public void printBoard() {
+    void printBoard() {
         System.out.printf("\n****************************************************************************************************************************************************************************\n");
         System.out.printf("                                                                                 TABLERO DE JUEGO\n");
         System.out.printf("****************************************************************************************************************************************************************************\n\n");
@@ -29,7 +24,7 @@ public class Board { //TODO Renombrar todos los Board a GameBoard
         System.out.printf("\n\n****************************************************************************************************************************************************************************\n");
     }
 
-    public boolean checkPiece(Token token, char side) {
+    boolean checkPiece(Token token, char side) {
         /*Method that checks if a token is allowed to be placed in the board.*/
 
         if (boardTokens.isEmpty()) {
@@ -54,7 +49,7 @@ public class Board { //TODO Renombrar todos los Board a GameBoard
         }
     }
 
-    public void placePiece(Token token, char side) {
+    void placePiece(Token token, char side) {
         /*Method thath places a token in the table. Need the checkPiece method to be used before. */
 
         switch (side) {
@@ -79,7 +74,7 @@ public class Board { //TODO Renombrar todos los Board a GameBoard
 
     }
 
-    public boolean closedEdges() {
+    boolean closedEdges() {
         /*Method that checks if both sides has been closed with numbers that has been placed 8 times.*/
 
         if (this.getBoardTokens().isEmpty()) {
@@ -98,7 +93,7 @@ public class Board { //TODO Renombrar todos los Board a GameBoard
         }
     }
 
-    public boolean firstTime() {
+    boolean firstTime() {
         return boardTokens.isEmpty();
     }
 }
