@@ -122,7 +122,7 @@ class Game {
                         option = optionString.toUpperCase().charAt(0);
 
                         switch (option) {
-                            case 'C': //Take a token from the stack to the hand. //TODO lineas superiores en blanco
+                            case 'C': //Take a token from the stack to the hand.
                                 if (board.firstTime()) {
                                     System.out.printf("\n\n###  NO PUEDE COGER FICHA EN EL PRIMER TURNO.  ###\n\n");
                                     error = true;

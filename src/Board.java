@@ -1,7 +1,7 @@
 
 import java.util.LinkedList;
 
-class Board { //TODO Renombrar todos los Board a GameBoard
+class Board {
 
     private LinkedList<Token> boardTokens;  //Atribute that contains the tokens placed on the game board.
 
