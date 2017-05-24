@@ -1,13 +1,13 @@
-import java.util.LinkedList;
 
+import java.util.LinkedList;
 
 public class Board { //TODO Renombrar todos los Board a GameBoard
 
-    private LinkedList<Token> boardTokens = new LinkedList<>(); //Atribute that contains the tokens placed on the game board.
+    private LinkedList<Token> boardTokens;  //Atribute that contains the tokens placed on the game board.
 
     public Board() {
+        this.boardTokens = new LinkedList<>();
     }
-
 
     public LinkedList<Token> getBoardTokens() {
 
@@ -19,7 +19,7 @@ public class Board { //TODO Renombrar todos los Board a GameBoard
         this.boardTokens = boardTokens;
     }
 
-    public void printBoard() { //TODO Integrar en la interfaz gráfica.
+    public void printBoard() {
         System.out.printf("\n****************************************************************************************************************************************************************************\n");
         System.out.printf("                                                                                 TABLERO DE JUEGO\n");
         System.out.printf("****************************************************************************************************************************************************************************\n\n");
@@ -27,31 +27,29 @@ public class Board { //TODO Renombrar todos los Board a GameBoard
             System.out.printf(p.toString() + " ");
         }
         System.out.printf("\n\n****************************************************************************************************************************************************************************\n");
-        //System.out.printf("****************************************************************************\n");
     }
 
     public boolean checkPiece(Token token, char side) {
         /*Method that checks if a token is allowed to be placed in the board.*/
 
-        if (boardTokens.size() == 0) {
+        if (boardTokens.isEmpty()) {
             return true;
         } else {
-            if(side=='x'){ //Only in the first turn of the game.
+            if (side == 'x') { //Only in the first turn of the game.
                 return (token.getSide1() == boardTokens.getFirst().getSide1() || token.getSide2() == boardTokens.getFirst().getSide1()) || (token.getSide1() == boardTokens.getLast().getSide2() || token.getSide2() == boardTokens.getLast().getSide2());
-            }
-            else{
-            if (side == 'I' ) {
-                if (token.getSide1() == boardTokens.getFirst().getSide1() || token.getSide2() == boardTokens.getFirst().getSide1()) {
-                    return true;
-                }
             } else {
-                if (side == 'D') {
-                    if (token.getSide1() == boardTokens.getLast().getSide2() || token.getSide2() == boardTokens.getLast().getSide2()) {
+                if (side == 'I') {
+                    if (token.getSide1() == boardTokens.getFirst().getSide1() || token.getSide2() == boardTokens.getFirst().getSide1()) {
                         return true;
                     }
+                } else {
+                    if (side == 'D') {
+                        if (token.getSide1() == boardTokens.getLast().getSide2() || token.getSide2() == boardTokens.getLast().getSide2()) {
+                            return true;
+                        }
+                    }
                 }
-            }
-            return false;
+                return false;
             }
         }
     }
@@ -79,5 +77,28 @@ public class Board { //TODO Renombrar todos los Board a GameBoard
                 break;
         }
 
+    }
+
+    public boolean closedEdges() {
+        /*Method that checks if both sides has been closed with numbers that has been placed 8 times.*/
+
+        if (this.getBoardTokens().isEmpty()) {
+            return false;
+        } else {
+            int leftNumber, rightNumber;
+            int leftCount = 0, rightCount = 0;
+            leftNumber = this.getBoardTokens().getFirst().getSide1();
+            rightNumber = this.getBoardTokens().getLast().getSide2();
+
+            for (Token p : this.getBoardTokens()) {
+                rightCount += p.rightCount(rightNumber);
+                leftCount += p.leftCount(leftNumber);
+            }
+            return leftCount == 8 && rightCount == 8;
+        }
+    }
+
+    public boolean firstTime() {
+        return boardTokens.isEmpty();
     }
 }
